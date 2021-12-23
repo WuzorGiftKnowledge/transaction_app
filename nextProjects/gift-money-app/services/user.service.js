@@ -19,7 +19,8 @@ export const userService = {
     getById,
     getTransactionById,
     update,
-    delete: _delete
+    delete: _delete,
+    createTransaction
 };
 
 function login(username, password) {
@@ -45,6 +46,10 @@ function logout() {
 
 function register(user) {
     return fetchWrapper.post(`${baseUrl}/register`, user);
+}
+
+function createTransaction(trans) {
+    return fetchWrapper.post(`${trans}/add`, trans);
 }
 
 function getAll() {

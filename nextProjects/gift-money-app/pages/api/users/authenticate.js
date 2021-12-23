@@ -35,7 +35,7 @@ async function authenticate(req, res) {
     }
 
     // create a jwt token that is valid for 7 days
-   // const token = jwt.sign({ sub: user.id }, serverRuntimeConfig.secret, { expiresIn: '7d' });
+    const token = jwt.sign({ sub: user.id }, serverRuntimeConfig.secret, { expiresIn: '7d' });
 
     // return basic user details and token
     return res.status(200).json({
@@ -43,6 +43,9 @@ async function authenticate(req, res) {
         username: user.username,
         firstname: user.firstname,
         lastame: user.lastname,
-       // token
+        eur_balance:user.eur_balance,
+        ngn_balance:user.ngn_balance,
+        usd_balance:user.usd_balance,
+        token
     });
 }

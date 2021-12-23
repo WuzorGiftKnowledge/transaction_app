@@ -7,56 +7,56 @@ import { Link } from 'components';
 import { userService, alertService } from 'services';
 
 export { AddEdit };
+export async function getServerSideProps() {
+    data= await prisma.user.findMany({
+        select:{
+            id:true,
+            firstname:true,
+            lastname:true,
+        }
 
-function AddEdit(props) {
+     })
+    return {
+        props:{
+            data},
+     
+     }
+ }
+function AddEdit(props, {data}) {
     const user = props?.user;
-    const isAddMode = !user;
+  
     const router = useRouter();
     
     // form validation rules 
     const validationSchema = Yup.object().shape({
-        firstName: Yup.string()
-            .required('First Name is required'),
-        lastName: Yup.string()
-            .required('Last Name is required'),
-        username: Yup.string()
-            .required('Username is required'),
-        password: Yup.string()
-            .transform(x => x === '' ? undefined : x)
-            .concat(isAddMode ? Yup.string().required('Password is required') : null)
-            .min(6, 'Password must be at least 6 characters')
+        senderId: Yup.number()
+            .required('senderId is required'),
+       receiverId: Yup.number()
+            .required('receiverId is required'),
+        receiverAccountCurrency: Yup.string()
+            .required('receiverAccountCurrency is required'),
+        senderAccountCurrency: Yup.string()
+            .required('receiverAccountCurrency is required'),
+        amount: Yup.number()
+            .required('amount is required') 
+            
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
-
-    // set default form values if in edit mode
-    if (!isAddMode) {
-        formOptions.defaultValues = props.user;
-    }
-
+  
     // get functions to build form with useForm() hook
     const { register, handleSubmit, reset, formState } = useForm(formOptions);
     const { errors } = formState;
 
-    function onSubmit(data) {
-        return isAddMode
-            ? createUser(data)
-            : updateUser(user.id, data);
+    function onSubmit(trans) {
+        return  createTransaction(trans)
+           
     }
 
-    function createUser(data) {
-        return userService.register(data)
+    function createTransaction(trans) {
+        return userService.createTransaction(trans)
             .then(() => {
-                alertService.success('User added', { keepAfterRouteChange: true });
+                alertService.success('Transaction added', { keepAfterRouteChange: true });
                 router.push('.');
-            })
-            .catch(alertService.error);
-    }
-
-    function updateUser(id, data) {
-        return userService.update(id, data)
-            .then(() => {
-                alertService.success('User updated', { keepAfterRouteChange: true });
-                router.push('..');
             })
             .catch(alertService.error);
     }
@@ -65,30 +65,36 @@ function AddEdit(props) {
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-row">
                 <div className="form-group col">
-                    <label>First Name</label>
-                    <input name="firstName" type="text" {...register('firstName')} className={`form-control ${errors.firstName ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.firstName?.message}</div>
+                    <label>Reeivere</label>
+                    <input name="receiverId" type="text" {...register('receiverId')} className={`form-control ${errors.receiverId ? 'is-invalid' : ''}`} />
+                    <div className="invalid-feedback">{errors.receiverId?.message}</div>
                 </div>
                 <div className="form-group col">
-                    <label>Last Name</label>
-                    <input name="lastName" type="text" {...register('lastName')} className={`form-control ${errors.lastName ? 'is-invalid' : ''}`} />
+                    <label>Sender Account Currency</label>
+                    <select value="EUR"  {...register('senderAccountCurrency')} >
+                    <option value="NGN">NGN</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    </select>
+                    <div className="invalid-feedback">{errors.lastName?.message}</div>
+                </div>
+                <div className="form-group col">
+                    <label>Receiver Account Currency</label>
+                    <select value="EUR" {...register('receiverAccountCurrency')}>
+                    <option value="NGN">NGN</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    </select>
                     <div className="invalid-feedback">{errors.lastName?.message}</div>
                 </div>
             </div>
             <div className="form-row">
                 <div className="form-group col">
-                    <label>Username</label>
+                    <label>Amount</label>
                     <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
                     <div className="invalid-feedback">{errors.email?.message}</div>
                 </div>
-                <div className="form-group col">
-                    <label>
-                        Password
-                        {!isAddMode && <em className="ml-1">(Leave blank to keep the same password)</em>}
-                    </label>
-                    <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.password?.message}</div>
-                </div>
+              
             </div>
             <div className="form-group">
                 <button type="submit" disabled={formState.isSubmitting} className="btn btn-primary mr-2">

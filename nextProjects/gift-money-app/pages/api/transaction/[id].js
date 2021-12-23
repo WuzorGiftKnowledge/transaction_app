@@ -17,25 +17,18 @@ async function getTran(req, res) {
  console.log("God is good");
 
 
-    const response =  await prisma.user.findUnique({
-        where: {
-          id:user_id,
-       include:{
-
-         transactions:{
-           where:{
-            
-                receiverId:user_id
-              },
-             
-
-         },
-       },
+    const response =  await prisma.transaction.findMany()
+      /**   where: {
+         senderId:Number(user_id),
+         receiverId:Number(user_id)
+      
+      
     }
-      })
+      }) 
+      */
 
       
-   console.log(response);
+   console.log(JSON.parse(JSON.stringify(response)));
 
     return res.status(200).json(response);
 }

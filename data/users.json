@@ -1,0 +1,21 @@
+[
+    {
+        "firstName": "Gift",
+        "lastName": "Wuzor",
+        "username": "wuzorgift@yahoo.com",
+        "hash": "$2a$10$sqHsKDnlMaQM6GMJWdAnFe/k4YukCbs3XLypsv2XTKpaON08hMsEi",
+        "id": 1,
+        "dateCreated": "2021-12-18T08:05:45.675Z",
+        "dateUpdated": "2021-12-18T08:05:45.675Z"
+    },
+    {
+        "firstName": "Gift",
+        "lastName": "Wuzor",
+        "address": "omunobo igwuruta Rivers State",
+        "email": "wuzorgift@yahoo.com",
+        "hash": "$2a$10$7R3Jlirkc3D0E/BIaSuRNeVrLjfLzTQ6P3CUIWxialH7EQgt1cHGe",
+        "id": 2,
+        "dateCreated": "2021-12-20T15:07:28.719Z",
+        "dateUpdated": "2021-12-20T15:07:28.719Z"
+    }
+]

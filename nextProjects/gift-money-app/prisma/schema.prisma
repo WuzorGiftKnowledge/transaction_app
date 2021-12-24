@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+model Transaction {
+  id        Int     @default(autoincrement()) @id
+  sender     User?   @relation(name:"sender",fields: [senderId], references: [id])
+  receiver     User?   @relation(name:"receiver", fields: [receiverId], references: [id])
+  amount    Decimal @default(0)
+  currency  String
+  status    Boolean @default(false)
+  senderId  Int ?
+  receiverId  Int
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+}
+
+model User {
+  id            Int       @default(autoincrement()) @id
+  firstname     String
+  lastname     String
+  username         String   @unique
+  password      String
+  address       String
+  ngn_balance   Decimal?   @default(0)
+  eur_balance   Decimal?   @default(0)
+  usd_balance  Decimal?    @default(0)
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  sender        Transaction?   @relation(name:"sender")
+  receiver     Transaction?   @relation(name:"receiver")
+  @@map(name: "users")
+} 

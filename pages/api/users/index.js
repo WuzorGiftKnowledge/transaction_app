@@ -16,23 +16,8 @@ async function getUsers(req, res) {
  console.log("God is good"+user_id);
 
 
-    const response =  await prisma.user.findUnique({
-        where: {
-          id:10
-        },
-       include:{
-
-         transactions:{
-           where:{
-            
-                receiverId:10
-              },
-             
-
-         },
-       },
-        
-      })
+    const response =  await prisma.user.findMany();
+       
 
       
    console.log(response);

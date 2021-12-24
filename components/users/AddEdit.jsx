@@ -8,6 +8,7 @@ import { Link } from 'components';
 import { userService, alertService } from 'services';
 
 export { AddEdit };
+/*
 export async function getServerSideProps() {
     data= await prisma.user.findMany({
         select:{
@@ -23,13 +24,36 @@ export async function getServerSideProps() {
      
      }
  }
-function AddEdit(props, {data}) {
+ */
+function AddEdit(props) {
     const user = props?.user;
     const [users, setUsers] = useState(null);
-   
+    
+        const [value, setValue] = useState();
+        const [loading, setLoading] = useState(true);
+        const [items, setItems] = useState([
+          { label: "Loading ...", value: "" }
+        ]);
+
     useEffect(() => {
-      (data => setUsers(x)) 
-    }, []);
+        let unmounted = false;
+        async function getUsers() {
+            const response = await userService.getAll();
+            const body = response;
+            console.log(response);
+            if (!unmounted) {
+            setItems(body.map(({lastname,firstname, id }) => ({ label: lastname+" "+firstname, value: id })));
+           // console.log(items);
+            setLoading(false)
+          }
+        }
+          getUsers();
+
+          return () => {
+            unmounted = true;
+          };
+        }, []);
+      
     const router = useRouter();
     
     // form validation rules 
@@ -70,9 +94,22 @@ function AddEdit(props, {data}) {
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-row">
                 <div className="form-group col">
-                    <label>Reeivere</label>
-                    <input name="receiverId" type="text" {...register('receiverId')} className={`form-control ${errors.receiverId ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.receiverId?.message}</div>
+                    <label>Receiver</label>
+                    <select
+                disabled={loading}
+                value={value}
+                onChange={e => setValue(e.currentTarget.value)}
+                >      {items.map(item => (
+                    <option
+                      key={item.value}
+                      value={item.value}
+                    >
+                      {item.label}
+                    </option>
+                  ))}
+            
+                </select>
+              <div className="invalid-feedback">{errors.receiverId?.message}</div>
                 </div>
                 <div className="form-group col">
                     <label>Sender Account Currency</label>

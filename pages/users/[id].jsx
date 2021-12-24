@@ -43,7 +43,7 @@ function Index({id}) {
                         <th style={{ width: '30%' }}>Amount</th>
                         <th style={{ width: '30%' }}>Currency</th>
                         <th style={{ width: '30%' }}>Status</th>
-                        <th style={{ width: '10%' }}></th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -54,15 +54,7 @@ function Index({id}) {
                             <td>{user.amount}</td>
                             <td>{user.currency}</td>
                             <td>{ (user.status == true) ? 'Successful' : 'Failed'}</td>
-                            <td style={{ whiteSpace: 'nowrap' }}>
-                                <Link href={`/users/edit/${user.id}`} className="btn btn-sm btn-primary mr-1">Edit</Link>
-                                <button onClick={() => deleteUser(user.id)} className="btn btn-sm btn-danger btn-delete-user" disabled={user.isDeleting}>
-                                    {user.isDeleting 
-                                        ? <span className="spinner-border spinner-border-sm"></span>
-                                        : <span>Delete</span>
-                                    }
-                                </button>
-                            </td>
+                            
                         </tr>
                     )}
                     {!users &&

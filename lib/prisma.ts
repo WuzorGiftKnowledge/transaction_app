@@ -9,6 +9,3 @@ export const prisma =
 
 if (process.env.NODE_ENV !== 'production') global.prisma = prisma
 
-declare global {
-    var prisma: PrismaClient | undefined
-  }

@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 import getConfig from 'next/config';
-import prisma from '../../../lib/prisma';
+import { PrismaClient } from '@prisma/client'
 
 import { apiHandler, usersRepo } from 'helpers/api';
 
+const prisma =new PrismaClient();
 const { serverRuntimeConfig } = getConfig();
 
 export default apiHandler({

@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { useState, useEffect } from 'react';
 
 import { Link } from 'components';
 import { userService, alertService } from 'services';
@@ -24,7 +25,11 @@ export async function getServerSideProps() {
  }
 function AddEdit(props, {data}) {
     const user = props?.user;
-  
+    const [users, setUsers] = useState(null);
+   
+    useEffect(() => {
+      (data => setUsers(x)) 
+    }, []);
     const router = useRouter();
     
     // form validation rules 

@@ -1,5 +1,5 @@
 import { apiHandler, usersRepo, omit } from 'helpers/api';
-
+import { prisma} from '../../../lib/prisma';
 
 
 export default apiHandler({

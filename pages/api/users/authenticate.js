@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 import getConfig from 'next/config';
-//import prisma from '../../../lib/prisma';
+import prisma from '../../../lib/prisma';
 
 import { apiHandler, usersRepo } from 'helpers/api';
 

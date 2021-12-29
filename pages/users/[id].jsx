@@ -56,7 +56,7 @@ function Index({id}) {
                            
                             <td>    {user.senderId &&  (user.senderId==userService.userValue.id)? 'You' : ((user.senderId==null)? '---' :user.sender.firstname)}      </td>
                            
-                            <td>{(user.receiver !=null) && (user.receiverId==userService.userValue.id)? 'You' : ((user.receiverId==null)? '---' :user.receiver.firstname)}</td>
+                            <td>{user.receiverId && (user.receiverId==userService.userValue.id)? 'You' : ((user.receiverId==null)? '---' :user.receiver.firstname)}</td>
                             <td>{user.amount}</td>
                             <td>{user.currency}</td>
                             <td>{ (user.status == true) ? 'Successful' : 'Failed'}</td>

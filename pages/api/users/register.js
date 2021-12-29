@@ -32,7 +32,7 @@ try{
 
     // hash password
     user.password = bcrypt.hashSync(password, 10);    
-      user.usd_balance=100;
+      user.usd_balance=1000;
 
       const newuser = await prisma.user.create({
         data: {

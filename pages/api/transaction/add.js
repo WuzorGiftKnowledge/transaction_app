@@ -173,11 +173,11 @@ else if (trans.senderAccountCurrency==="EUR"){
       },
       data: {
         ngn_balance: {
-          increment:100,
+          increment:amount,
         },
         receiver:{
           create:{
-            amount:100,
+            amount:amount,
             status:true,
             currency:"NGN",
             sender: { connect: { username: sender.username } }

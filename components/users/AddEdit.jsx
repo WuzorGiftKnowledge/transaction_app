@@ -93,8 +93,8 @@ function AddEdit(props) {
                 <div className="form-group col">
                     <label>Receiver</label>
                     <select  {...register('receiverId')}
+                disabled={loading}
                
-                value={value}
                 onChange={e => setValue(e.currentTarget.value)}
                 >      {items.map(item => (
                     <option

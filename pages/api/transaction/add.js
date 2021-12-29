@@ -166,52 +166,36 @@ else if (trans.senderAccountCurrency==="EUR"){
     
     
   }else if (trans.recieverAccountCurrency=="NGN"){
-    console.log(amount); 
-    receiver = prisma.user.update({
+
+    receiver = await prisma.user.update({
       where: {
         id: Number(trans.receiverId),
       },
       data: {
         ngn_balance: {
           increment:amount,
-        },
-        receiver:{
-          create:{
-            amount:amount,
-            status:true,
-            currency:"NGN",
-            sender: { connect: { username: sender.username } }
-          
-          },
-        },
+        }
+       
       },
-     
     })
   } 
   else if (trans.receiverAccountCurrency=="EUR"){
    
-    const  transact = await prisma.user.update({
-        where: {
-          id: Number(trans.receiverId),
-        },
-        data: {
-          eur_balance: {
-            increment:amount,
-          },
-          receiver:{
-            create:{
-              amount: amount,
-              status:true,
-              currency:"EUR",
-              sender: { connect: { username: sender.username } }
-            
-            },
-          },
-        },
+    receiver = await prisma.user.update({
+      where: {
+        id: Number(trans.receiverId),
+      },
+      data: {
+        eur_balance: {
+          increment:amount,
+        }
        
-      })
+      },
+    })
+       
+      }
   
-    };
+    
 
     const  tran = await prisma.transaction.create({
      data:{

@@ -1,6 +1,7 @@
 import { apiHandler, usersRepo, omit } from 'helpers/api';
 import { userService } from 'services';
 import { BehaviorSubject } from 'rxjs';
+import { prisma} from '../../../lib/prisma';
 
 export default apiHandler({
     get: getUsers

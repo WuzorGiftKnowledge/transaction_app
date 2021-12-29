@@ -94,7 +94,7 @@ function AddEdit(props) {
                     <label>Receiver</label>
                     <select  {...register('receiverId')}
                 disabled={loading}
-               
+                value={value}
                 onChange={e => setValue(e.currentTarget.value)}
                 >      {items.map(item => (
                     <option

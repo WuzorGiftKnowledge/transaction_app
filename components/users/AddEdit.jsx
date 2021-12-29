@@ -77,25 +77,22 @@ function AddEdit(props) {
     const { errors } = formState;
 
     function onSubmit(trans) {
-        return  createTransaction(trans)
+          return userService.createTransaction(trans)
+        .then(() => {
+            alertService.success('Transaction added', { keepAfterRouteChange: true });
+            router.push('..');
+        })
+        .catch(alertService.error);
            
     }
 
-    function createTransaction(trans) {
-        return userService.createTransaction(trans)
-            .then(() => {
-                alertService.success('Transaction added', { keepAfterRouteChange: true });
-                router.push('.');
-            })
-            .catch(alertService.error);
-    }
-
+   
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-row">
                 <div className="form-group col">
                     <label>Receiver</label>
-                    <select
+                    <select  {...register('receiverId')}
                 disabled={loading}
                 value={value}
                 onChange={e => setValue(e.currentTarget.value)}
@@ -113,30 +110,34 @@ function AddEdit(props) {
                 </div>
                 <div className="form-group col">
                     <label>Sender Account Currency</label>
-                    <select value="EUR"  {...register('senderAccountCurrency')} >
+                    <select {...register('senderAccountCurrency')}  onChange={e => setValue(e.currentTarget.value)} >
                     <option value="NGN">NGN</option>
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
                     </select>
-                    <div className="invalid-feedback">{errors.lastName?.message}</div>
+                    <div className="invalid-feedback">{errors.senderAccountCurrency?.message}</div>
                 </div>
                 <div className="form-group col">
                     <label>Receiver Account Currency</label>
-                    <select value="EUR" {...register('receiverAccountCurrency')}>
+                    <select  {...register('receiverAccountCurrency')}  onChange={e => setValue(e.currentTarget.value)}>
                     <option value="NGN">NGN</option>
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
                     </select>
-                    <div className="invalid-feedback">{errors.lastName?.message}</div>
+                    <div className="invalid-feedback">{errors.receiverAccountCurrency?.message}</div>
                 </div>
             </div>
             <div className="form-row">
                 <div className="form-group col">
                     <label>Amount</label>
-                    <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.email?.message}</div>
+                    <input name="amount" type="text" {...register('amount')} className={`form-control ${errors.amount ? 'is-invalid' : ''}`} />
+                    <div className="invalid-feedback">{errors.amount?.message}</div>
                 </div>
-              
+                <div className="form-group col">
+                    
+                    <input name="amount" type="hidden" {...register('senderId')}  value={userService.userValue.id} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
+                   
+                </div>
             </div>
             <div className="form-group">
                 <button type="submit" disabled={formState.isSubmitting} className="btn btn-primary mr-2">
@@ -144,7 +145,7 @@ function AddEdit(props) {
                     Save
                 </button>
                 <button onClick={() => reset(formOptions.defaultValues)} type="button" disabled={formState.isSubmitting} className="btn btn-secondary">Reset</button>
-                <Link href="/users" className="btn btn-link">Cancel</Link>
+                <Link href={`/users/${userService.userValue?.id}`} className="btn btn-link">Cancel</Link>
             </div>
         </form>
     );

@@ -48,8 +48,8 @@ function register(user) {
     return fetchWrapper.post(`${baseUrl}/register`, user);
 }
 
-function createTransaction(trans) {
-    return fetchWrapper.post(`${trans}/add`, trans);
+function createTransaction(tran) {
+    return fetchWrapper.post(`${trans}/add`, tran);
 }
 
 function getAll() {

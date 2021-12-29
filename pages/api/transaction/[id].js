@@ -17,7 +17,34 @@ async function getTran(req, res) {
  console.log("God is good");
 
 
-    const response =  await prisma.transaction.findMany()
+    const response =  await prisma.transaction.findMany({
+where:{
+      OR:[
+        {
+        senderId:Number(user_id)
+         
+        },
+      {
+        receiverId:Number(user_id)
+      }
+      ]
+    },
+    include:{
+      sender:{
+        select:{
+          firstname:true,
+          lastname:true
+        },
+       
+    },
+    receiver:{
+      select:{
+        firstname:true,
+        lastname:true
+      }
+  }
+  }
+    })
       /**   where: {
          senderId:Number(user_id),
          receiverId:Number(user_id)

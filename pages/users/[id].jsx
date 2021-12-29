@@ -4,6 +4,7 @@ import { Link, Spinner } from 'components';
 import { Layout } from 'components/users';
 import { userService, alertService } from '../../services';
 import { PrismaClient } from '@prisma/client'
+import { useForm } from 'react-hook-form';
 
 
 
@@ -47,10 +48,15 @@ function Index({id}) {
                     </tr>
                 </thead>
                 <tbody>
+                {console.log(users)}
                 {users && users.map(user =>
+                
                         <tr key={user.id}>
-                            <td>{user.senderId}</td>
-                            <td>{user.receiverId}</td>
+                           
+                           
+                            <td>    {user.senderId &&  (user.senderId==userService.userValue.id)? 'You' : ((user.senderId==null)? '---' :user.sender.firstname)}      </td>
+                           
+                            <td>{(user.receiver !=null) && (user.receiverId==userService.userValue.id)? 'You' : ((user.receiverId==null)? '---' :user.receiver.firstname)}</td>
                             <td>{user.amount}</td>
                             <td>{user.currency}</td>
                             <td>{ (user.status == true) ? 'Successful' : 'Failed'}</td>

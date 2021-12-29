@@ -51,9 +51,9 @@ try{
    const receiver=newuser.username;
    const sender = await prisma.transaction.create({
      data: {
-       amount: 100,
+       amount: 1000,
        status:true,
-       currency:"usd",
+       currency:"USD",
        receiver: { connect: { username: receiver } }
      }
    })

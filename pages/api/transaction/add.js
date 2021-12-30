@@ -88,11 +88,11 @@ const to = trans.receiverAccountCurrency;
 
 
 
-
+ return await prisma.$transaction(async (prisma) => {
        
 
 if (trans.senderAccountCurrency==="USD"){
-  console.log(amount); 
+
   if( sender.usd_balance < trans.amount){
     throw new Error("Your USD account has insufficient balance")
   }
@@ -149,46 +149,49 @@ else if (trans.senderAccountCurrency==="EUR"){
 
  
   //update receivers record
+  if (trans.receiverAccountCurrency==='NGN'){
 
-  if (trans.receiverAccountCurrency==="USD"){
+    const receiver2 = await prisma.user.update({
+     
+       data: {
+         ngn_balance: {
+           increment:amount,
+         },
+        
+       },
+       where: {
+         id: Number(trans.receiverId),
+       },
+     })
+    }  
+ else if (trans.receiverAccountCurrency==="USD"){
   
-    receiver = await prisma.user.update({
-      where: {
-        id: Number(trans.receiverId),
-      },
+    const receiver2 = await prisma.user.update({
+     
       data: {
         usd_balance: {
           increment:amount,
         }
        
       },
-    })
-    
-    
-  }else if (trans.recieverAccountCurrency=="NGN"){
-
-    receiver = await prisma.user.update({
       where: {
         id: Number(trans.receiverId),
-      },
-      data: {
-        ngn_balance: {
-          increment:amount,
-        }
-       
-      },
+      }
     })
+    
+    
+  
   } 
-  else if (trans.receiverAccountCurrency=="EUR"){
+  else if (trans.receiverAccountCurrency==="EUR"){
    
-    receiver = await prisma.user.update({
+    const receiver2 = await prisma.user.update({
       where: {
         id: Number(trans.receiverId),
       },
       data: {
         eur_balance: {
           increment:amount,
-        }
+        },
        
       },
     })
@@ -212,7 +215,7 @@ else if (trans.senderAccountCurrency==="EUR"){
    //await prisma.$transaction([sender, receiver]);
   
  return res.status(200).json({});
-  
+  })
 
 
   

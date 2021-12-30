@@ -63,7 +63,7 @@ function AddEdit(props) {
        receiverId: Yup.number()
             .required('receiverId is required'),
         receiverAccountCurrency: Yup.string()
-            .required('receiverAccountCurrency is required'),
+            .required('senderAccountCurrency is required'),
         senderAccountCurrency: Yup.string()
             .required('receiverAccountCurrency is required'),
         amount: Yup.number()
